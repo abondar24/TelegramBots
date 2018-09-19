@@ -8,7 +8,9 @@ Bot link: https://t.me/learmning_bot
 ```yaml
 mvn clean install
 
-java -jar target/update-bot.jar
+java -jar target/update-bot.jar or mvn clean springboot:run
+
+
 ```
 
 ## Chat commands
@@ -16,3 +18,6 @@ java -jar target/update-bot.jar
 start - start updates
 
 ```
+
+Add your token to properties file
+
