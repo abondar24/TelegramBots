@@ -3,5 +3,5 @@
 Couple of Dummy Telegram Bots
 
 
-1) [UpdateBot](UpdateBot/README.md)
-2)  [CommandBot](CommandBot/README.md)
+1)  [UpdateBot](LongPolling/UpdateBot/README.md)
+2)  [CommandBot](LongPolling/CommandBot/README.md)
