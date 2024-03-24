@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: org.abondar.experimental.telegrambots
+testFramework: junit
+sourceLanguage: kotlin
+buildTool: gradle_kotlin
+features: [app-name, chatbots-telegram-http, gradle, http-client, jetty-server, jib, junit, kapt, kotlin, kotlin-application, logback, management, micronaut-aot, micronaut-build, micronaut-http-validation, micronaut-test-rest-assured, mockito, openapi, properties, readme, serialization-jackson, shade, static-resources, swagger-ui, testcontainers, validation]
