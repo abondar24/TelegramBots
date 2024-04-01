@@ -8,14 +8,14 @@ import io.micronaut.chatbots.telegram.core.TelegramBotConfiguration
 import io.micronaut.chatbots.telegram.core.TelegramHandler
 import io.micronaut.core.order.Ordered
 import jakarta.inject.Singleton
+import org.abondar.experimental.telegrambots.counter.WordCountService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.*
 
 @Singleton
 open class MessageHandler(
-    //TODO add redis,
-    private val spaceParser: SpaceParser<Update, Chat>
+    private val wordCountService: WordCountService,
 ): TelegramHandler<SendMessage>  {
 
     private val logger: Logger = LoggerFactory.getLogger(MessageHandler::class.java)
@@ -26,8 +26,11 @@ open class MessageHandler(
     }
 
     override fun handle(bot: TelegramBotConfiguration?, input: Update?): Optional<SendMessage> {
-        logger.info("Got message for analysis");
-        //TODO: call redis
+        logger.info("Got message for analysis")
+
+        val message = input?.message?.text ?: return Optional.empty()
+        wordCountService.saveAndCount(message.split("\\s+".toRegex()))
+
         return Optional.empty();
     }
 

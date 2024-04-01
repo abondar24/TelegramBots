@@ -29,6 +29,7 @@ class MessageHandlerTest {
         assertTrue(ctx.containsBean(MessageHandler::class.java))
     }
 
+    //todo mock
     @Test
     @Throws(Exception::class)
     fun messageHandlerExistsTest() {

@@ -31,6 +31,7 @@ class StatsCommandHandlerTest {
         assertTrue(ctx.containsBean(StatsCommandHandler::class.java))
     }
 
+    //todo mock
     @Test
     @Throws(Exception::class)
     fun statsHandlerExistsTest() {
