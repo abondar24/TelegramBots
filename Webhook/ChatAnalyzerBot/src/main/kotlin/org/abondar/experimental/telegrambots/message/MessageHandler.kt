@@ -6,6 +6,7 @@ import io.micronaut.chatbots.telegram.api.Update
 import io.micronaut.chatbots.telegram.api.send.SendMessage
 import io.micronaut.chatbots.telegram.core.TelegramBotConfiguration
 import io.micronaut.chatbots.telegram.core.TelegramHandler
+import io.micronaut.core.order.Ordered
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -30,4 +31,5 @@ open class MessageHandler(
         return Optional.empty();
     }
 
+    override fun getOrder() = 0
 }

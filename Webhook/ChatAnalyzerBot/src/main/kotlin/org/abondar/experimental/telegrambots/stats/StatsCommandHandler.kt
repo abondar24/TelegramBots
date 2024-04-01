@@ -34,4 +34,6 @@ open class StatsCommandHandler(
     companion object {
         private const val COMMAND_ABOUT = "/stats"
     }
+
+    override fun getOrder() = 1
 }
