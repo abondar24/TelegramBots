@@ -45,9 +45,8 @@ internal class WordCountServiceTest {
     }
 
 
-    //TODO: fix
+
     @Test
-    @Disabled
     fun getWordStatTest(){
         val wordCountService = WordCountService(jedis)
         val words = listOf("test","test1","test2","test")
@@ -55,8 +54,8 @@ internal class WordCountServiceTest {
         wordCountService.saveAndCount(words)
         val wordStat = wordCountService.getWordStat(2)
         assertEquals(2,wordStat.size)
-        assertEquals(2,"test")
-        assertEquals(1,"test1")
+        assertEquals(2,wordStat["test"])
+        assertEquals(1,wordStat["test2"])
     }
 
 }

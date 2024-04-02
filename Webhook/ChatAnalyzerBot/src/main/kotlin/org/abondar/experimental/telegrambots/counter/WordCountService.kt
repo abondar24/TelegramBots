@@ -27,36 +27,19 @@ open class WordCountService(private val client: Jedis) {
     }
 
     fun getWordStat(limit: Int): Map<String,Int> {
-        try {
-           var cursor = "0"
-           val wordStat = mutableMapOf<String,Int>()
+        val keys = client.keys("*")
+        val result = mutableMapOf<String,Int>()
 
-           var keysCount = 0
-
-           while (true){
-               val scamResult = client.scan(cursor)
-               cursor = scamResult.cursor
-
-               for (key in scamResult.result) {
-                   if (keysCount >- limit) {
-                       break
-                   }
-                   val count = client.get(key)?.toInt() ?:0
-                   wordStat[key] = count
-                   keysCount++
-               }
-
-               if (cursor == "0") {
-                   break
-               }
-           }
-            return wordStat
-
-        } catch (e: Exception){
-            logger.error(e.message)
-            return emptyMap();
+        for (key in keys){
+            val  value = client.get(key)?.toIntOrNull() ?: continue
+            result[key] = value
         }
 
+        return  result
+            .toList()
+            .sortedByDescending { it.second }
+            .take(limit)
+            .toMap()
     }
 
 }
