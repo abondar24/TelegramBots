@@ -8,7 +8,7 @@ import redis.clients.jedis.Jedis
 import java.lang.Exception
 
 @Singleton
-class WordCountService(private val client: Jedis) {
+open class WordCountService(private val client: Jedis) {
 
     private val logger: Logger = LoggerFactory.getLogger(WordCountService::class.java)
 
