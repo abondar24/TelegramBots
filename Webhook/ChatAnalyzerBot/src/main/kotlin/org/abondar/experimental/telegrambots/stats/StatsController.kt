@@ -6,6 +6,7 @@ import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.PathVariable
 import io.micronaut.http.annotation.Produces
+import io.micronaut.http.annotation.QueryValue
 import io.micronaut.json.JsonMapper
 import io.micronaut.validation.Validated
 import io.swagger.v3.oas.annotations.Operation
@@ -31,7 +32,7 @@ class StatsController(
 
     private val logger: Logger = LoggerFactory.getLogger(StatsController::class.java)
 
-    @Get("/{limit}")
+    @Get()
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Fetch statistics", description = "Fetch top of words used in chat")
     @ApiResponse(responseCode = "200", description = "List of top commonly used words")
@@ -45,7 +46,7 @@ class StatsController(
             schema = Schema(implementation = Int::class),
             allowEmptyValue = false,
         )
-        @PathVariable
+        @QueryValue
         @Min(5)
         @Max(50)
         limit: Int
