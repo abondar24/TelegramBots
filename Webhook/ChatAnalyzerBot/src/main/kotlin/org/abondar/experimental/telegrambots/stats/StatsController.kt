@@ -1,5 +1,6 @@
 package org.abondar.experimental.telegrambots.stats
 
+import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
@@ -9,6 +10,8 @@ import io.micronaut.json.JsonMapper
 import io.micronaut.validation.Validated
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.ExampleObject
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import jakarta.validation.constraints.Max
@@ -21,10 +24,10 @@ import org.slf4j.LoggerFactory
 
 @Controller("/stats")
 @Validated
-class StatsController (
+class StatsController(
     private val wordCountService: WordCountService,
     private val jsonMapper: JsonMapper
-){
+) {
 
     private val logger: Logger = LoggerFactory.getLogger(StatsController::class.java)
 
@@ -33,6 +36,7 @@ class StatsController (
     @Operation(summary = "Fetch statistics", description = "Fetch top of words used in chat")
     @ApiResponse(responseCode = "200", description = "List of top commonly used words")
     @ApiResponse(responseCode = "400", description = "Words top value is too small or too big")
+    @ApiResponse(responseCode = "500", description = "Redis service is not available")
     fun statistics(
         @Parameter(
             description = "The number of words to return. Minimum 5, maximum 50",
@@ -44,11 +48,12 @@ class StatsController (
         @PathVariable
         @Min(5)
         @Max(50)
-        limit: Int): String {
+        limit: Int
+    ): HttpResponse<Any> {
         logger.info("Fetching statistics")
 
         val wordStat = wordCountService.getWordStat(limit)
 
-        return jsonMapper.writeValueAsString(wordStat)
+        return HttpResponse.ok(jsonMapper.writeValueAsString(wordStat))
     }
 }

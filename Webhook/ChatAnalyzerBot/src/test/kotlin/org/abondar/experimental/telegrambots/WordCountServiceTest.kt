@@ -22,7 +22,7 @@ internal class WordCountServiceTest {
             .withExposedPorts(6379)
     }
 
-    lateinit var jedis: Jedis
+    private lateinit var jedis: Jedis
 
     @BeforeEach
     fun setup(){
