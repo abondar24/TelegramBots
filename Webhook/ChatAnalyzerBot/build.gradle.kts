@@ -22,7 +22,7 @@ dependencies {
     kapt("io.micronaut.openapi:micronaut-openapi")
     kapt("io.micronaut.serde:micronaut-serde-processor")
     kapt("io.micronaut.validation:micronaut-validation-processor")
-    implementation("io.micronaut:micronaut-http-client")
+
     implementation("io.micronaut:micronaut-management")
     implementation("io.micronaut.chatbots:micronaut-chatbots-telegram-http")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
@@ -32,13 +32,11 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     implementation("redis.clients:jedis:${jedisVersion}")
-
     compileOnly("io.micronaut.openapi:micronaut-openapi-annotations")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     testImplementation("io.micronaut.test:micronaut-test-rest-assured")
     testImplementation("org.mockito:mockito-core")
-    // https://mvnrepository.com/artifact/org.mockito.kotlin/mockito-kotlin
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:testcontainers")

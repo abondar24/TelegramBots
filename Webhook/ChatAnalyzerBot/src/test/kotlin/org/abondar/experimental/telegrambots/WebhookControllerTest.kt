@@ -1,44 +1,47 @@
 package org.abondar.experimental.telegrambots
 
-import io.micronaut.chatbots.telegram.api.send.SendMessage
-import io.micronaut.http.HttpRequest
-import io.micronaut.http.HttpStatus
-import io.micronaut.http.client.HttpClient
-import io.micronaut.http.client.annotation.Client
-import io.micronaut.http.client.exceptions.HttpClientResponseException
+import io.micronaut.runtime.server.EmbeddedServer
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
+import io.restassured.RestAssured
 import jakarta.inject.Inject
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 @MicronautTest
 class WebhookControllerTest {
 
-    @field:Client("/")
     @Inject
-    lateinit var client: HttpClient
+    lateinit var embeddedServer: EmbeddedServer
 
-    //TODO add test for stats controller
+    @BeforeEach
+    fun setup() {
+        RestAssured.port = embeddedServer.port
+    }
+
+
     @Test
     fun tokenIsRequiredStats() {
-        val post = HttpRequest.POST("/chat_analyzer", getStatCommandJson())
-        val httpClientResponseException = assertThrows(HttpClientResponseException::class.java) {
-            client.toBlocking().exchange(post, SendMessage::class.java)
-        }
-        assertEquals(HttpStatus.BAD_REQUEST, httpClientResponseException.status)
+        RestAssured.given()
+            .contentType("application/json")
+            .body(getStatCommandJson())
+            .`when`().post("/chat_analyzer")
+            .then()
+            .statusCode(400)
+
     }
 
     @Test
     fun tokenIsRequiredMessage() {
-        val post = HttpRequest.POST("/chat_analyzer", getMessageJson())
-        val httpClientResponseException = assertThrows(HttpClientResponseException::class.java) {
-            client.toBlocking().exchange(post, SendMessage::class.java)
-        }
-        assertEquals(HttpStatus.BAD_REQUEST, httpClientResponseException.status)
+        RestAssured.given()
+            .contentType("application/json")
+            .body(getMessageJson())
+            .`when`().post("/chat_analyzer")
+            .then()
+            .statusCode(400)
     }
 
-    private fun getStatCommandJson() = WebhookControllerTest::class.java.getResource("/mockStatsCommand.json")!!.readText()
+    private fun getStatCommandJson() =
+        WebhookControllerTest::class.java.getResource("/mockStatsCommand.json")!!.readText()
 
     private fun getMessageJson() = WebhookControllerTest::class.java.getResource("/mockMessage.json")!!.readText()
 

@@ -1,6 +1,7 @@
 package org.abondar.experimental.telegrambots.counter
 
 
+import io.micronaut.core.annotation.Introspected
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -8,6 +9,7 @@ import redis.clients.jedis.Jedis
 import java.lang.Exception
 
 @Singleton
+@Introspected
 open class WordCountService(private val client: Jedis) {
 
     private val logger: Logger = LoggerFactory.getLogger(WordCountService::class.java)
