@@ -1,18 +1,30 @@
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import io.micronaut.gradle.docker.MicronautDockerfile
+
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.9.23"
     id("org.jetbrains.kotlin.kapt") version "1.9.23"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.9.23"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("io.micronaut.application") version "4.3.5"
-    id("com.google.cloud.tools.jib") version "2.8.0"
     id("io.micronaut.aot") version "4.3.5"
+    id("io.micronaut.docker") version "4.3.5"
+    id("io.micronaut.graalvm") version "4.3.5"
+    id("com.palantir.git-version") version "3.0.0"
 }
 
 version = "0.1"
 group = "org.abondar.experimental.telegrambots"
 
+val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
+val commitId = versionDetails().gitHash
+
+val awsIam = System.getenv("AWS_IAM")
+val awsRegion = System.getenv("AWS_REGION")
+
 val kotlinVersion=project.properties.get("kotlinVersion")
 val jedisVersion=project.properties.get("jedisVersion")
+
 repositories {
     mavenCentral()
 }
@@ -56,13 +68,25 @@ kotlin {
     }
 }
 
-tasks {
-    jib {
-        to {
-            image = "gcr.io/myapp/jib-image"
-        }
-    }
+tasks.named<io.micronaut.gradle.docker.NativeImageDockerfile>("dockerfileNative") {
+    args("-Dmicronaut.environments=cloud")
+    instruction ("ARG WEBHOOK_TOKEN")
 }
+
+tasks.named<DockerBuildImage>("dockerBuild") {
+    images.add( "$awsIam.dkr.ecr.$awsRegion.amazonaws.com/chatanalyzer/chatanalyzerbot:$version-$commitId")
+}
+
+tasks.named<MicronautDockerfile>("dockerfile") {
+    args("-Dmicronaut.environments=cloud")
+    instruction ("ARG WEBHOOK_TOKEN")
+}
+
+tasks.named<DockerBuildImage>("dockerBuild") {
+    images.add( "$awsIam.dkr.ecr.$awsRegion.amazonaws.com/chatanalyzer/chatanalyzerbot:$version-$commitId")
+}
+
+
 graalvmNative.toolchainDetection.set(false)
 micronaut {
     runtime("jetty")
