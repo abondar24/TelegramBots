@@ -70,7 +70,13 @@ kotlin {
 
 tasks.named<io.micronaut.gradle.docker.NativeImageDockerfile>("dockerfileNative") {
     args("-Dmicronaut.environments=cloud")
+
     instruction ("ARG WEBHOOK_TOKEN")
+    instruction ("ARG REDIS_HOST")
+    instruction ("ARG REDIS_PORT")
+    instruction ("ARG REDIS_USER")
+    instruction ("ARG REDIS_PASSWORD")
+
 }
 
 tasks.named<DockerBuildImage>("dockerBuild") {
@@ -80,6 +86,10 @@ tasks.named<DockerBuildImage>("dockerBuild") {
 tasks.named<MicronautDockerfile>("dockerfile") {
     args("-Dmicronaut.environments=cloud")
     instruction ("ARG WEBHOOK_TOKEN")
+    instruction ("ARG REDIS_HOST")
+    instruction ("ARG REDIS_PORT")
+    instruction ("ARG REDIS_USER")
+    instruction ("ARG REDIS_PASSWORD")
 }
 
 tasks.named<DockerBuildImage>("dockerBuild") {
