@@ -7,10 +7,7 @@ on:
   pull_request:
     branches:
       - master
-  workflow_dispatch:
-    branches:
-      - master
-
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -46,25 +43,25 @@ jobs:
         with:
           files: build/test-results/test/*.xml
 
-   build:
-     needs: test 
-     runs-on: ubuntu-latest
-     steps:
-       - uses: actions/checkout@v2
-       - name: Set up JDK 17
-         uses: ayltai/setup-graalvm@v1
-         with:
-           java-version: 17
-           graalvm-version: 21.3.0
+  deploy:
+    needs: test 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: ayltai/setup-graalvm@v1
+        with:
+          java-version: 17
+          graalvm-version: 21.3.0
        
-       - name: Build image
-         uses: gradle/actions/setup-gradle@v3
-         with:
-           arguments: dockerBuildNative
+      - name: Build image
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          arguments: dockerBuildNative
         
-       - name: Deploy
-         uses: gonuit/heroku-docker-deploy@v1.3.3
-         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: ${{secrets.HEROKU_APP}}
-          email: ${{secrets.HEROKU_EMAIL}}        
+      - name: Deploy
+        uses: gonuit/heroku-docker-deploy@v1.3.3
+        with:
+         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+         heroku_app_name: ${{secrets.HEROKU_APP}}
+         email: ${{secrets.HEROKU_EMAIL}}        
