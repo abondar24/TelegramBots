@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory
 import java.util.*
 
 @Singleton
-@Introspected
 open class MessageHandler(
     private val wordCountService: WordCountService,
 ): TelegramHandler<SendMessage>  {

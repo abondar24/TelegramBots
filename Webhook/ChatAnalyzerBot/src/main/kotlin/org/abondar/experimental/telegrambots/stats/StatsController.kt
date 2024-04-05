@@ -1,5 +1,6 @@
 package org.abondar.experimental.telegrambots.stats
 
+import io.micronaut.core.annotation.Introspected
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Controller
@@ -25,6 +26,7 @@ import org.slf4j.LoggerFactory
 
 @Controller("/stats")
 @Validated
+@Introspected
 class StatsController(
     private val wordCountService: WordCountService,
     private val jsonMapper: JsonMapper

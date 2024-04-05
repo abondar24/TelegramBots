@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory
 import java.util.*
 
 @Singleton
-@Introspected
 open class StatsCommandHandler(
     slashCommandParser: TelegramSlashCommandParser,
     textResourceLoader: TextResourceLoader,

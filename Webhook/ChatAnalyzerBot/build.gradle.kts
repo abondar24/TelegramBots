@@ -22,6 +22,7 @@ val commitId = versionDetails().gitHash
 
 val kotlinVersion=project.properties.get("kotlinVersion")
 val jedisVersion=project.properties.get("jedisVersion")
+val mockitoKotlinVersion=project.properties.get("mockitoKotlinVersion")
 
 repositories {
     mavenCentral()
@@ -42,12 +43,14 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     implementation("redis.clients:jedis:${jedisVersion}")
+    implementation("io.micronaut:micronaut-runtime")
+
     compileOnly("io.micronaut.openapi:micronaut-openapi-annotations")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     testImplementation("io.micronaut.test:micronaut-test-rest-assured")
     testImplementation("org.mockito:mockito-core")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:${mockitoKotlinVersion}")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:testcontainers")
 }
