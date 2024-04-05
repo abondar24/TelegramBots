@@ -19,8 +19,6 @@ group = "org.abondar.experimental.telegrambots"
 val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
 val commitId = versionDetails().gitHash
 
-val awsIam = System.getenv("AWS_IAM")
-val awsRegion = System.getenv("AWS_REGION")
 
 val kotlinVersion=project.properties.get("kotlinVersion")
 val jedisVersion=project.properties.get("jedisVersion")
@@ -80,7 +78,7 @@ tasks.named<io.micronaut.gradle.docker.NativeImageDockerfile>("dockerfileNative"
 }
 
 tasks.named<DockerBuildImage>("dockerBuild") {
-    images.add( "$awsIam.dkr.ecr.$awsRegion.amazonaws.com/chatanalyzer/chatanalyzerbot:$version-$commitId")
+    images.add("registry.heroku.com/chatanalyzerbot/web:$version-$commitId")
 }
 
 tasks.named<MicronautDockerfile>("dockerfile") {
@@ -93,7 +91,7 @@ tasks.named<MicronautDockerfile>("dockerfile") {
 }
 
 tasks.named<DockerBuildImage>("dockerBuild") {
-    images.add( "$awsIam.dkr.ecr.$awsRegion.amazonaws.com/chatanalyzer/chatanalyzerbot:$version-$commitId")
+    images.add("registry.heroku.com/chatanalyzerbot/web:$version-$commitId")
 }
 
 
