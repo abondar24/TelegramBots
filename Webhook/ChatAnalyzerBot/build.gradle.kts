@@ -13,7 +13,7 @@ plugins {
     id("com.palantir.git-version") version "3.0.0"
 }
 
-version = "0.1"
+version = "1.0"
 group = "org.abondar.experimental.telegrambots"
 
 val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
@@ -80,8 +80,8 @@ tasks.named<io.micronaut.gradle.docker.NativeImageDockerfile>("dockerfileNative"
 
 }
 
-tasks.named<DockerBuildImage>("dockerBuild") {
-    images.add("registry.heroku.com/chatanalyzerbot/web:$version-$commitId")
+tasks.named<DockerBuildImage>("dockerBuildNative") {
+    images.add("registry.heroku.com/chatanalyzerbot:$version-$commitId")
 }
 
 tasks.named<MicronautDockerfile>("dockerfile") {
@@ -94,7 +94,7 @@ tasks.named<MicronautDockerfile>("dockerfile") {
 }
 
 tasks.named<DockerBuildImage>("dockerBuild") {
-    images.add("registry.heroku.com/chatanalyzerbot/web:$version-$commitId")
+    images.add("registry.heroku.com/chatanalyzerbot:$version-$commitId")
 }
 
 
