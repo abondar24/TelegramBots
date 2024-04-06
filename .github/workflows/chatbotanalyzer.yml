@@ -42,7 +42,7 @@ jobs:
           distribution: 'graalvm' 
 
       - name: Run image build   
-        run:  cd Webhook/ChatAnalyzerBot && ./gradlew dockerNativeBuild
+        run:  cd Webhook/ChatAnalyzerBot && ./gradlew dockerBuildNative
 
       - name: Deploy
         uses: gonuit/heroku-docker-deploy@v1.3.3
