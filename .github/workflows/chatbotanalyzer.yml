@@ -29,42 +29,27 @@ jobs:
         with:
           files: Webhook/ChatAnalyzerBot/build/test-results/test/*.xml  
         
-  # deploy:
-  #   needs: build 
-  #   runs-on: ubuntu-latest
-  #   steps:  
-  #     - uses: actions/checkout@v4
-
-  #     - name: Set up JDK 17
-  #       uses: graalvm/setup-graalvm@v1
-  #       with:
-  #         java-version: 17
-  #         distribution: 'graalvm' 
-
-  #     - name: Run image build   
-  #       run:  cd Webhook/ChatAnalyzerBot && ./gradlew dockerBuildNative
-  
-  #     - name: Deploy
-  #       uses: gonuit/heroku-docker-deploy@v1.3.3
-  #       with:
-  #         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-  #         heroku_app_name: ${{secrets.HEROKU_APP}}
-  #         email: ${{secrets.HEROKU_EMAIL}}             
-  #         dockerfile_directory: Webhook/ChatAnalyzerBot/build/docker/native-main
-  #         dockerfile_name: DockerfileNative
-        
   deploy:
     needs: build 
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+    steps:  
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: 17
+          distribution: 'graalvm' 
+
+      - name: Run image build   
+        run:  cd Webhook/ChatAnalyzerBot && ./gradlew dockerBuildNative
+  
       - name: Deploy
-        uses: akhileshns/heroku-deploy@v3.12.12
+        uses: gonuit/heroku-docker-deploy@v1.3.3
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: ${{secrets.HEROKU_APP}}
-          heroku_email: ${{secrets.HEROKU_EMAIL}}
-          branch: master
-          procfile: MICRONAUT_ENVIRONMENTS=cloud ./gradlew nativeRun
-        env:
-          HD_PORT: 8080
+          email: ${{secrets.HEROKU_EMAIL}}             
+          dockerfile_directory: Webhook/ChatAnalyzerBot/build/docker/native-main
+          dockerfile_name: DockerfileNative
+        
