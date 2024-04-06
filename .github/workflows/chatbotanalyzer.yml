@@ -25,7 +25,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
       
       - name: Run gradle build   
-        run:  ls la && ./gradlew build
+        run:  ls -la && ./gradlew build
 
       - name: Test Report
         uses: EnricoMi/publish-unit-test-result-action@v1
