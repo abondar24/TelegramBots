@@ -11,9 +11,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: Webhook/ChatAnalyzerBot
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
@@ -21,10 +18,12 @@ jobs:
         with:
           java-version: 17
           distribution: 'graalvm'
+      - run: cd Webhook/ChatAnalyzerBot     
       - name: Build
         uses: gradle/actions/setup-gradle@v3
         with:
           arguments: compileJava
+     
 
   test:
     needs: build
@@ -34,21 +33,23 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
         with:
           arguments: test
+      - run: cd Webhook/ChatAnalyzerBot        
       - name: Test Report
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
           files: build/test-results/test/*.xml
+     
 
   deploy:
     needs: test 
     runs-on: ubuntu-latest
-    steps:       
+    steps:  
+      - run: cd Webhook/ChatAnalyzerBot         
       - name: Build image
         uses: gradle/actions/setup-gradle@v3
         with:
           arguments: dockerBuildNative
-        
       - name: Deploy
         uses: gonuit/heroku-docker-deploy@v1.3.3
         with:
