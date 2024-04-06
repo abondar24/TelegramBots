@@ -1,0 +1,1 @@
+web:  MICRONAUT_ENVIRONMENTS=cloud ./gradlew nativeRun
