@@ -11,8 +11,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./Webhook/ChatAnalyzerBot
+    defaults:
+      run:
+        working-directory: ./Webhook/ChatAnalyzerBot
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
@@ -20,48 +21,45 @@ jobs:
         with:
           java-version: 17
           distribution: 'graalvm' 
-        working-directory:  ${{env.working-directory}} 
+       
       - name: Build
         uses: gradle/actions/setup-gradle@v3
         with:
-          arguments: compileJava
-        working-directory:  ${{env.working-directory}}   
+          arguments: compileJava     
 
   test:
     needs: build
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./Webhook/ChatAnalyzerBot
+    defaults:
+      run:
+        working-directory: ./Webhook/ChatAnalyzerBot
     steps:
       - name: Test
         uses: gradle/actions/setup-gradle@v3
         with:
-          arguments: test
-        working-directory:  ${{env.working-directory}}   
+          arguments: test 
       - run: cd Webhook/ChatAnalyzerBot        
       - name: Test Report
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
           files: build/test-results/test/*.xml
-        working-directory:  ${{env.working-directory}}   
-     
-
+        
   deploy:
     needs: test 
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./Webhook/ChatAnalyzerBot
+    defaults:
+      run:
+        working-directory: ./Webhook/ChatAnalyzerBot
     steps:  
       - name: Build image
         uses: gradle/actions/setup-gradle@v3
         with:
-          arguments: dockerBuildNative
-        working-directory:  ${{env.working-directory}}   
+          arguments: dockerBuildNative 
       - name: Deploy
         uses: gonuit/heroku-docker-deploy@v1.3.3
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: ${{secrets.HEROKU_APP}}
           email: ${{secrets.HEROKU_EMAIL}}    
-        working-directory:  ${{env.working-directory}} 
+        
