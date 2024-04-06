@@ -11,6 +11,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./Webhook/ChatAnalyzerBot
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
@@ -23,7 +25,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
       
       - name: Run gradle build   
-        run:  cd Webhook/ChatAnalyzerBot && ls -la && ./gradlew build
+        run:  ls la && ./gradlew build
 
       - name: Test Report
         uses: EnricoMi/publish-unit-test-result-action@v1
@@ -31,17 +33,17 @@ jobs:
         with:
           files: build/test-results/test/*.xml  
         
-  deploy:
-    needs: build 
-    runs-on: ubuntu-latest
-    steps:  
-      - name: Run image build   
-        run:  cd Webhook/ChatAnalyzerBot && ./gradlew dockerNativeBuild
+  # deploy:
+  #   needs: build 
+  #   runs-on: ubuntu-latest
+  #   steps:  
+  #     - name: Run image build   
+  #       run:  cd Webhook/ChatAnalyzerBot && ./gradlew dockerNativeBuild
 
-      - name: Deploy
-        uses: gonuit/heroku-docker-deploy@v1.3.3
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: ${{secrets.HEROKU_APP}}
-          email: ${{secrets.HEROKU_EMAIL}}    
+  #     - name: Deploy
+  #       uses: gonuit/heroku-docker-deploy@v1.3.3
+  #       with:
+  #         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+  #         heroku_app_name: ${{secrets.HEROKU_APP}}
+  #         email: ${{secrets.HEROKU_EMAIL}}    
         
