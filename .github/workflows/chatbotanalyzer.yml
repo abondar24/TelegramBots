@@ -13,14 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up JDK 17
         uses: graalvm/setup-graalvm@v1
         with:
           java-version: 17
           distribution: 'graalvm' 
-
-      - name: Setup gradle
-        uses: gradle/actions/setup-gradle@v3
 
       - name: Run gradle build   
         run:  cd Webhook/ChatAnalyzerBot && ./gradlew build
@@ -36,6 +34,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:  
       - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: 17
+          distribution: 'graalvm' 
+
       - name: Run image build   
         run:  cd Webhook/ChatAnalyzerBot && ./gradlew dockerNativeBuild
 
