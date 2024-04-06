@@ -50,6 +50,6 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: ${{secrets.HEROKU_APP}}
           email: ${{secrets.HEROKU_EMAIL}}    
-          dockerfile_directory: WebHook/ChatAnalyzerBot/build/docker/native-main
-          dockerfile_name: WebHook/ChatAnalyzerBot/DockerfileNative
+          dockerfile_directory: build/docker/native-main
+          dockerfile_name: DockerfileNative
         
