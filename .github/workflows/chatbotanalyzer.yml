@@ -11,10 +11,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Webhook/ChatAnalyzerBot
     steps:
       - uses: actions/checkout@v4
-      - name: Setup working dir
-        run:  cd Webhook/ChatAnalyzerBot
       - name: Set up JDK 17
         uses: graalvm/setup-graalvm@v1
         with:
