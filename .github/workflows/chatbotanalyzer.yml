@@ -17,12 +17,12 @@ jobs:
         uses: graalvm/setup-graalvm@v1
         with:
           java-version: 17
-          distribution: 'graalvm'
-      - run: cd Webhook/ChatAnalyzerBot     
+          distribution: 'graalvm' 
       - name: Build
         uses: gradle/actions/setup-gradle@v3
         with:
           arguments: compileJava
+      - run: cd Webhook/ChatAnalyzerBot        
      
 
   test:
