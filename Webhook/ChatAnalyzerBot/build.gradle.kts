@@ -77,6 +77,7 @@ tasks.named<io.micronaut.gradle.docker.NativeImageDockerfile>("dockerfileNative"
     instruction ("ARG REDIS_PORT")
     instruction ("ARG REDIS_USER")
     instruction ("ARG REDIS_PASSWORD")
+    instruction ("ARG PORT")
 
 }
 
@@ -91,6 +92,7 @@ tasks.named<MicronautDockerfile>("dockerfile") {
     instruction ("ARG REDIS_PORT")
     instruction ("ARG REDIS_USER")
     instruction ("ARG REDIS_PASSWORD")
+    instruction ("ARG PORT")
 }
 
 tasks.named<DockerBuildImage>("dockerBuild") {
