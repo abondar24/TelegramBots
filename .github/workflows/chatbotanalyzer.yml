@@ -23,7 +23,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
       
       - name: Run gradle build   
-        run:  cd Webhook/ChatAnalyzerBot && ./gradlew build
+        run:  cd Webhook/ChatAnalyzerBot && ls -la && ./gradlew build
 
       - name: Test Report
         uses: EnricoMi/publish-unit-test-result-action@v1
