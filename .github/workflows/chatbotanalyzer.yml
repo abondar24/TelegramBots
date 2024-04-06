@@ -11,8 +11,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./Webhook/ChatAnalyzerBot
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
@@ -20,13 +18,13 @@ jobs:
         with:
           java-version: 17
           distribution: 'graalvm' 
-       
+
       - name: Setup gradle
         uses: gradle/actions/setup-gradle@v3
-      
-      - name: Run gradle build   
-        run:  ls -la && ./gradlew build
 
+      - name: Run gradle build   
+        run:  cd Webhook/ChatAnalyzerBot && ./gradlew build
+        
       - name: Test Report
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
