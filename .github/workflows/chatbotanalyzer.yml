@@ -31,17 +31,17 @@ jobs:
         with:
           files: Webhook/ChatAnalyzerBot/build/test-results/test/*.xml  
         
-  # deploy:
-  #   needs: build 
-  #   runs-on: ubuntu-latest
-  #   steps:  
-  #     - name: Run image build   
-  #       run:  cd Webhook/ChatAnalyzerBot && ./gradlew dockerNativeBuild
+  deploy:
+    needs: build 
+    runs-on: ubuntu-latest
+    steps:  
+      - name: Run image build   
+        run:  cd Webhook/ChatAnalyzerBot && ./gradlew dockerNativeBuild
 
-  #     - name: Deploy
-  #       uses: gonuit/heroku-docker-deploy@v1.3.3
-  #       with:
-  #         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-  #         heroku_app_name: ${{secrets.HEROKU_APP}}
-  #         email: ${{secrets.HEROKU_EMAIL}}    
+      - name: Deploy
+        uses: gonuit/heroku-docker-deploy@v1.3.3
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP}}
+          email: ${{secrets.HEROKU_EMAIL}}    
         
