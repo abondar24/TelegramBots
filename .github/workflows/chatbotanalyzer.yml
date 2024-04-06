@@ -22,40 +22,28 @@ jobs:
           java-version: 17
           distribution: 'graalvm' 
        
-      - name: Build
+      - name: Setup gradle
         uses: gradle/actions/setup-gradle@v3
-        with:
-          arguments: compileJava     
+      
+      - name: Run gradle build   
+        run: ./gradlew build
 
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./Webhook/ChatAnalyzerBot
-    steps:
-      - name: Test
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          arguments: test 
-      - run: cd Webhook/ChatAnalyzerBot        
       - name: Test Report
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          files: build/test-results/test/*.xml
+          files: build/test-results/test/*.xml  
         
   deploy:
-    needs: test 
+    needs: build 
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./Webhook/ChatAnalyzerBot
     steps:  
-      - name: Build image
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          arguments: dockerBuildNative 
+      - name: Run image build   
+        run: ./gradlew dockerNativeBuild
+
       - name: Deploy
         uses: gonuit/heroku-docker-deploy@v1.3.3
         with:
