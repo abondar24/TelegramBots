@@ -79,9 +79,6 @@ tasks.named<io.micronaut.gradle.docker.NativeImageDockerfile>("dockerfileNative"
     instruction ("ARG REDIS_USER")
     instruction ("ARG REDIS_PASSWORD")
     instruction ("ARG PORT")
-    editDockerfile {
-        replace("EXPOSE 8080","")
-    }
 }
 
 tasks.named<DockerBuildImage>("dockerBuildNative") {
@@ -96,9 +93,7 @@ tasks.named<MicronautDockerfile>("dockerfile") {
     instruction ("ARG REDIS_USER")
     instruction ("ARG REDIS_PASSWORD")
     instruction ("ARG PORT")
-    editDockerfile {
-        replace("EXPOSE 8080","")
-    }
+
 }
 
 tasks.named<DockerBuildImage>("dockerBuild") {
@@ -108,7 +103,7 @@ tasks.named<DockerBuildImage>("dockerBuild") {
 
 graalvmNative.toolchainDetection.set(false)
 micronaut {
-    runtime("jetty")
+    runtime("netty")
     testRuntime("junit5")
     processing {
         incremental(true)
