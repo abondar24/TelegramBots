@@ -42,8 +42,8 @@ jobs:
           distribution: 'graalvm' 
 
       - name: Run image build   
-        run:  cd Webhook/ChatAnalyzerBot && ./gradlew dockerFileNative && sed -i 's\EXPOSE 8080\EXPOSE ${PORT}\g' build/docker/native-main/DockerfileNative
-  
+        run:  cd Webhook/ChatAnalyzerBot && ./gradlew dockerFileNative 
+        
       - name: Deploy
         uses: gonuit/heroku-docker-deploy@v1.3.3
         with:
