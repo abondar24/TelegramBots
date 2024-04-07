@@ -18,7 +18,12 @@ group = "org.abondar.experimental.telegrambots"
 
 val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
 val commitId = versionDetails().gitHash
-val appPort = Integer.parseInt(System.getenv("PORT"))
+
+val portVal = System.getenv("PORT")
+var appPort = 0
+if (portVal!=null){
+    appPort = Integer.parseInt(portVal)
+}
 
 val kotlinVersion=project.properties.get("kotlinVersion")
 val jedisVersion=project.properties.get("jedisVersion")
