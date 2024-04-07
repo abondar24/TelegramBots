@@ -18,7 +18,7 @@ group = "org.abondar.experimental.telegrambots"
 
 val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
 val commitId = versionDetails().gitHash
-
+val appPort = Integer.parseInt(System.getenv("PORT"))
 
 val kotlinVersion=project.properties.get("kotlinVersion")
 val jedisVersion=project.properties.get("jedisVersion")
@@ -69,16 +69,16 @@ kotlin {
     }
 }
 
+
 tasks.named<io.micronaut.gradle.docker.NativeImageDockerfile>("dockerfileNative") {
     args("-Dmicronaut.environments=cloud")
-
     instruction ("ARG WEBHOOK_TOKEN")
     instruction ("ARG REDIS_HOST")
     instruction ("ARG REDIS_PORT")
     instruction ("ARG REDIS_USER")
     instruction ("ARG REDIS_PASSWORD")
     instruction ("ARG PORT")
-
+    exportPorts(appPort)
 }
 
 tasks.named<DockerBuildImage>("dockerBuildNative") {
@@ -93,6 +93,7 @@ tasks.named<MicronautDockerfile>("dockerfile") {
     instruction ("ARG REDIS_USER")
     instruction ("ARG REDIS_PASSWORD")
     instruction ("ARG PORT")
+    exportPorts(appPort)
 }
 
 tasks.named<DockerBuildImage>("dockerBuild") {
