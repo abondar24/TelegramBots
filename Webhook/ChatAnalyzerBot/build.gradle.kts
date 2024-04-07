@@ -19,11 +19,7 @@ group = "org.abondar.experimental.telegrambots"
 val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
 val commitId = versionDetails().gitHash
 
-val portVal = System.getenv("PORT")
-var appPort = 0
-if (portVal!=null){
-    appPort = Integer.parseInt(portVal)
-}
+
 
 val kotlinVersion=project.properties.get("kotlinVersion")
 val jedisVersion=project.properties.get("jedisVersion")
@@ -98,7 +94,6 @@ tasks.named<MicronautDockerfile>("dockerfile") {
     instruction ("ARG REDIS_USER")
     instruction ("ARG REDIS_PASSWORD")
     instruction ("ARG PORT")
-    exportPorts(appPort)
 }
 
 tasks.named<DockerBuildImage>("dockerBuild") {
