@@ -4,8 +4,10 @@ import io.micronaut.chatbots.core.SpaceParser
 import io.micronaut.chatbots.core.TextResourceLoader
 import io.micronaut.chatbots.telegram.api.Chat
 import io.micronaut.chatbots.telegram.api.Update
+import io.micronaut.chatbots.telegram.api.send.ParseMode
 import io.micronaut.chatbots.telegram.api.send.SendMessage
 import io.micronaut.chatbots.telegram.core.CommandHandler
+import io.micronaut.chatbots.telegram.core.SendMessageUtils
 import io.micronaut.chatbots.telegram.core.TelegramBotConfiguration
 import io.micronaut.chatbots.telegram.core.TelegramSlashCommandParser
 import jakarta.inject.Singleton
@@ -37,9 +39,8 @@ open class StatsCommandHandler(
         logger.info("Got stats command");
         val wordsStat = wordCountService.getWordStat(STAT_LIMIT)
 
-        val sendMessage = SendMessage()
-        sendMessage.text = prepareStatMessage(wordsStat)
-
+        val sendMessage = SendMessageUtils.compose( input?.message?.chat,
+            prepareStatMessage(wordsStat),ParseMode.MARKDOWN)
         return Optional.of(sendMessage);
     }
 
