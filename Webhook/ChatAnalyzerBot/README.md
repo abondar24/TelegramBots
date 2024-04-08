@@ -29,3 +29,8 @@ docker run ...
 ```
 Check build.gradle.kts for image name and tag. check application-cloud.properties for required env_variables to be set. 
 Also set WEBHOOK_TOKEN variable
+
+
+## Improvement
+
+In Redis a collections with word stats also need to contain chat id. 
