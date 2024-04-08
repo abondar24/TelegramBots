@@ -4,7 +4,6 @@ import io.micronaut.chatbots.telegram.api.Update
 import io.micronaut.chatbots.telegram.api.send.SendMessage
 import io.micronaut.chatbots.telegram.core.TelegramBotConfiguration
 import io.micronaut.chatbots.telegram.core.TelegramHandler
-import io.micronaut.core.annotation.Introspected
 import jakarta.inject.Singleton
 import org.abondar.experimental.telegrambots.counter.WordCountService
 import org.slf4j.Logger
@@ -20,7 +19,11 @@ open class MessageHandler(
 
 
     override fun canHandle(bot: TelegramBotConfiguration?, input: Update?): Boolean {
-       return !input?.message?.text.equals("/stats")
+        val text = input?.message?.text
+        if (text != null) {
+            return text != "/stats" || !text.contains("/stats@")
+        }
+       return false
     }
 
     override fun handle(bot: TelegramBotConfiguration?, input: Update?): Optional<SendMessage> {

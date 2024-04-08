@@ -8,7 +8,6 @@ import io.micronaut.chatbots.telegram.api.send.SendMessage
 import io.micronaut.chatbots.telegram.core.CommandHandler
 import io.micronaut.chatbots.telegram.core.TelegramBotConfiguration
 import io.micronaut.chatbots.telegram.core.TelegramSlashCommandParser
-import io.micronaut.core.annotation.Introspected
 import jakarta.inject.Singleton
 import org.abondar.experimental.telegrambots.counter.WordCountService
 import org.slf4j.Logger
@@ -25,6 +24,14 @@ open class StatsCommandHandler(
 
     private val logger: Logger = LoggerFactory.getLogger(StatsCommandHandler::class.java)
 
+    override fun canHandle(bot: TelegramBotConfiguration?, input: Update?): Boolean {
+        val text = input?.message?.text
+        if (text != null) {
+            return text == COMMAND_STATS || text.contains("/stats@")
+        }
+
+        return false
+    }
 
     override fun handle(bot: TelegramBotConfiguration?, input: Update?): Optional<SendMessage> {
         logger.info("Got stats command");
@@ -43,13 +50,15 @@ open class StatsCommandHandler(
         for ((key, value) in map) {
             stringBuilder.append("$key: $value\n")
         }
-        return stringBuilder.toString()
+        val statResponse = stringBuilder.toString()
+        logger.info(statResponse)
+        return statResponse
     }
 
-    override fun getCommand() = COMMAND_ABOUT
+    override fun getCommand() = COMMAND_STATS
 
     companion object {
-        private const val COMMAND_ABOUT = "/stats"
+        private const val COMMAND_STATS = "/stats"
         private  const val STAT_LIMIT = 50
     }
 
