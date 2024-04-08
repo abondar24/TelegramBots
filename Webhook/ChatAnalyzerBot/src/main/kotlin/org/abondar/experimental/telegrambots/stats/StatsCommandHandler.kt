@@ -52,7 +52,6 @@ open class StatsCommandHandler(
             stringBuilder.append("$key: $value\n")
         }
         val statResponse = stringBuilder.toString()
-        logger.info(statResponse)
         return statResponse
     }
 
