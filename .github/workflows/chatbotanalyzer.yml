@@ -2,11 +2,11 @@ name: Build and test
 
 on:
   push:
-    branches:
-      - master
+    paths:
+      - /Webhook/ChatAnalyzerBot/**
   pull_request:
-    branches:
-      - master
+    paths:
+      - /Webhook/ChatAnalyzerBot/**
   
 jobs:
   build:
