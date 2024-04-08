@@ -52,17 +52,19 @@ class StatsCommandHandlerTest {
             )
         )
 
-        val send = dispatcher.dispatch(null, jsonMapper.readValue(getStatsCommandJson(), Update::class.java))
+        val req =  jsonMapper.readValue(getStatsCommandJson(), Update::class.java)
+        val send = dispatcher.dispatch(null, req)
 
         assertFalse(send.isEmpty);
 
         val msg = send.get();
         assertTrue(msg is SendMessage)
 
+        assertEquals( req.message.chat.id,(msg as SendMessage).chatId )
         assertEquals("Most popular words in chat\n" +
                 "test: 2\n" +
                 "test1: 3",
-            (msg as SendMessage).getText().trim()
+            msg.text.trim()
             )
 
     }

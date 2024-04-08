@@ -20,7 +20,7 @@ import java.util.*
 open class StatsCommandHandler(
     slashCommandParser: TelegramSlashCommandParser,
     textResourceLoader: TextResourceLoader,
-    spaceParser: SpaceParser<Update, Chat>,
+    private val spaceParser: SpaceParser<Update, Chat>,
     private val wordCountService: WordCountService,
 ) : CommandHandler(slashCommandParser, textResourceLoader, spaceParser) {
 
@@ -39,9 +39,8 @@ open class StatsCommandHandler(
         logger.info("Got stats command");
         val wordsStat = wordCountService.getWordStat(STAT_LIMIT)
 
-        val sendMessage = SendMessageUtils.compose( input?.message?.chat,
-            prepareStatMessage(wordsStat),ParseMode.MARKDOWN)
-        return Optional.of(sendMessage);
+        return SendMessageUtils.compose(spaceParser, input,
+            prepareStatMessage(wordsStat))
     }
 
     private fun prepareStatMessage(map: Map<String, Int>): String {
