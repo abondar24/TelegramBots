@@ -21,7 +21,7 @@ open class MessageHandler(
     override fun canHandle(bot: TelegramBotConfiguration?, input: Update?): Boolean {
         val text = input?.message?.text
         if (text != null) {
-            return text != "/stats" || !text.contains("/stats@")
+            return !text.contains("/stats")
         }
        return false
     }
